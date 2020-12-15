@@ -3,3 +3,8 @@ files:
   json: "/Users/kostyafarber/repos/sydneyhouseprices/json"
   sydneyurl: "https://raw.githubusercontent.com/Perishleaf/data-visualisation-scripts/master/dash_project_medium/Sydney_suburb.geojson"
 
+map:
+  style: "open-street-map" # "open-street-map", "carto-positron", "carto-darkmatter", "stamen-terrain", "stamen-toner" or "stamen-watercolor"
+  lat: -33.8688
+  lon: 151.2093
+

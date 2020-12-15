@@ -8,3 +8,4 @@ render the graphs.
 - Set up using this command:
    jupyter labextension install jupyterlab-plotly
 
+- Cant access my geojson reliably from github to test whether url geojson renders faster.
