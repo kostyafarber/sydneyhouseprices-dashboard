@@ -1,1 +1,0 @@
-{"name":"config","description":"Loads YAML config file","language":"Python","code":["# import config files","with open(\"config.yml\", \"r\") as ymlfile:","  cfg = Box(yaml.safe_load(ymlfile))"],"id":0,"tags":["config"]}
