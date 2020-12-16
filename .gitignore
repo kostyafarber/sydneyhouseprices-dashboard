@@ -50,6 +50,6 @@ MANIFEST
 .venv*/
 
 # Other
-notes.txt
-.condaauto
-.coveragerc
+/notes.txt
+/.condaauto
+/.coveragerc
