@@ -79,4 +79,5 @@ dependencies:
   - ipywidgets
   - jupyterlab-git
   - nodejs
+  - pandas
 prefix: /Users/kostyafarber/opt/miniconda3/envs/sydneyhouseprices
