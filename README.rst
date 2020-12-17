@@ -3,17 +3,5 @@ sydneyhouseprices
 =================
 
 
-Add a short description here!
+A small project that visualises the selling prices of Sydney house prices in a choropleth map.
 
-
-Description
-===========
-
-A longer description of your project goes here...
-
-
-Note
-====
-
-This project has been set up using PyScaffold 3.2.3. For details and usage
-information on PyScaffold see https://pyscaffold.org/.
