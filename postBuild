@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# for custom module
+
 python setup.py develop
 
-# plotly
-jupyter labextension install jupyterlab-plotly@4.14.1
+jupyter labextension install jupyterlab-plotly@4.14.1 --minimize=False
