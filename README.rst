@@ -7,7 +7,8 @@ sydneyhouseprices
 ===========
 Description
 ===========
-A small project that visualises the median selling prices of Sydney properties in a choropleth map using Plotly.
+A small project that visualises the median selling prices of Sydney properties in a choropleth map using Plotly. The data used for this project was found `here <https://www.kaggle.com/mihirhalai/sydney-house-prices/activity>`_ on Kaggle.
+
 
 ==========
 Motivation
