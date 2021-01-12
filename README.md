@@ -8,7 +8,7 @@
 
 A small project that visualises the median selling prices of Sydney properties in a choropleth map using Plotly. The data used for this project was found [here](https://www.kaggle.com/mihirhalai/sydney-house-prices/activity>) on Kaggle.
 
-
+I encourage you to use the binder link so you can actually play around with the code instead of just seeing a HTML page. It takes quite a long while to load so hang in there if you'd like to interact with the code!
 
 # Motivation
 
