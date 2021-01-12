@@ -1,7 +1,6 @@
 import requests
 import geopandas as gpd
 
-
 def remoteGeoJSONToGDF(url, display=False):
     """Import remote GeoJSON to a GeoDataFrame
     Keyword arguments:
