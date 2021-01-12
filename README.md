@@ -1,12 +1,12 @@
 # sydneyhouseprices 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kostyafarber/sydneyhouseprices/HEAD?urlpath=lab)
 
-![](/images/choropleth.gif)
+![](/images/choropleth-gif.gif)
 
 
 # Description
 
-A small project that visualises the median selling prices of Sydney properties in a choropleth map using Plotly. The data used for this project was found `here <https://www.kaggle.com/mihirhalai/sydney-house-prices/activity>`_ on Kaggle.
+A small project that visualises the median selling prices of Sydney properties in a choropleth map using Plotly. The data used for this project was found [here](https://www.kaggle.com/mihirhalai/sydney-house-prices/activity>) on Kaggle.
 
 
 
