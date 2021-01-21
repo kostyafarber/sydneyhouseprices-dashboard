@@ -1,5 +1,6 @@
 # sydneyhouseprices 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kostyafarber/sydneyhouseprices/HEAD?urlpath=lab)
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/kostyafarber/sydneyhouseprices/blob/master/Notebooks/sydney_choropleth.ipynb)
 
 ![](/images/choropleth-gif.gif)
 
