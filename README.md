@@ -1,10 +1,10 @@
 # sydneyhouseprices 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kostyafarber/sydneyhouseprices/HEAD?urlpath=lab)
-[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/kostyafarber/sydneyhouseprices/blob/master/Notebooks/sydney_choropleth.ipynb)
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/kostyafarber/sydneyhouseprices/blob/master/notebooks/sydney_choropleth.ipynb)
 
 ![](/images/choropleth-gif.gif)
 
-
+https://nbviewer.jupyter.org/github/kostyafarber/sydneyhouseprices/blob/master/notebooks/sydney_choropleth.ipynb
 # Description
 
 A small project that visualises the median selling prices of Sydney properties in a choropleth map using Plotly. The data used for this project was found [here](https://www.kaggle.com/mihirhalai/sydney-house-prices/activity>) on Kaggle.
