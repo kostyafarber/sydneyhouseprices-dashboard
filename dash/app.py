@@ -65,6 +65,8 @@ sold_per_month.head()
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
 
+server = app.server
+
 # Layouts
 # ---------------------------------------------------------------------------------------------------------------------
 app.layout = dbc.Container([
