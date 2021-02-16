@@ -27,6 +27,7 @@ def remoteGeoJSONToGDF(url, display=False):
 
 
 # Preparing Data
+# ---------------------------------------------------------------------------------------------------------------------
 
 # import dataframe
 df = pd.read_csv('data/prices_data.csv', parse_dates=True, index_col='Date')
@@ -48,7 +49,7 @@ median_statistics = df.groupby("suburb").median()
 geo_house_prices = pd.merge(sydney, median_statistics, left_on="suburb", right_on=median_statistics.index, how="inner")
 geo_house_prices.set_index("suburb", inplace=True)
 
-# choropleth map
+# Choropleth Map
 # ---------------------------------------------------------------------------------------------------------------------
 token = open('.mapbox_token').read()
 
@@ -62,13 +63,34 @@ fig = px.choropleth_mapbox(geo_house_prices,
                            opacity=0.3
                            )
 
-fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0},
-                  mapbox_style="dark",
+fig.update_layout(mapbox_style="dark",
                   mapbox_accesstoken=token,
-                  template='plotly_dark'
+                  template='plotly_dark',
+                  paper_bgcolor='rgba(0,0,0,0)',
+                  plot_bgcolor='rgba(0,0,0,0)',
+                  title='Median Sydney House Prices',
+                  margin={'r': 0, 'l': 0}
                   )
 fig.update_coloraxes(colorbar_title=dict(side='right'))
 fig.update_geos(fitbounds="locations", visible=False)
+
+# Histograms
+# ---------------------------------------------------------------------------------------------------------------------
+bed = px.histogram(data_frame=df, x='bed', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis, labels={'bed': 'Number of Bedrooms'}, height=300)
+bed.update_layout(dict(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', title='Bedrooms Histogram'))
+bed.update_xaxes(range=[0, 10])
+
+bath = px.histogram(data_frame=df, x='bath', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis, labels={'bath': 'Number of Bathrooms'}, height=300)
+bath.update_layout(dict(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', title='Bathrooms Histogram'))
+bath.update_xaxes(range=[0, 10])
+
+car = px.histogram(data_frame=df, x='car', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis, labels={'car': 'Number of Car Spaces'}, height=300)
+car.update_layout(dict(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', title='Car Spaces Histogram'))
+car.update_xaxes(range=[0, 10])
+
+sell = px.histogram(data_frame=df, x='sellPrice', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis, labels={'sellPrice': 'Selling Price in Millions (AUD)'}, height=300)
+sell.update_layout(dict(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', title='Selling Prices Histogram'))
+sell.update_xaxes(range=[0, 10000000])
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Count Number of sales made in each month and turn into a dataframe
@@ -93,7 +115,19 @@ app.layout = dbc.Container([
 
     dbc.Row([
         dbc.Col(dcc.Graph(figure=fig))
-    ], className='m-3')
+    ], no_gutters=False),
+
+    dbc.Row([
+        dbc.Col(dcc.Graph(figure=bed), width=6),
+
+        dbc.Col(dcc.Graph(figure=bath), width=6)
+    ]),
+
+    dbc.Row([
+        dbc.Col(dcc.Graph(figure=bed), width=6),
+
+        dbc.Col(dcc.Graph(figure=bath), width=6)
+    ])
 ], fluid=True)
 
 if __name__ == '__main__':
