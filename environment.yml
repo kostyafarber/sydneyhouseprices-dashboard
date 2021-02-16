@@ -1,4 +1,4 @@
-name: sydneyhouseprices
+git name: sydneyhouseprices
 channels:
   - plotly
   - conda-forge/label/gcc7
