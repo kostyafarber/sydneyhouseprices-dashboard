@@ -8,7 +8,22 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import os
-from sydneyhouseprices.data import remoteGeoJSONToGDF
+
+
+# Function to import geojson and change to geopandas dataframe
+def remoteGeoJSONToGDF(url, display=False):
+    """Import remote GeoJSON to a GeoDataFrame
+    Keyword arguments:
+    url -- URL to GeoJSON resource on web
+    display -- Displays geometries upon loading (default: False)
+    """
+    r = requests.get(url)
+    data = r.json()
+    gdf = gpd.GeoDataFrame.from_features(data['features'])
+    if display:
+        gdf.plot()
+    return gdf
+
 
 # Preparing Data
 
@@ -37,14 +52,14 @@ geo_house_prices.set_index("suburb", inplace=True)
 token = open('.mapbox_token').read()
 
 fig = px.choropleth_mapbox(geo_house_prices,
-                            geojson=geo_house_prices.geometry,
-                            locations=geo_house_prices.index, color='sellPrice',
-                            color_continuous_scale="viridis",
-                            center={"lat": -33.865143, "lon": 151.209900},
-                            range_color=(0, 2000000),
-                            labels={"sellPrice": "Selling Price", "suburb": "Suburb"},
-                            opacity=0.3
-                            )
+                           geojson=geo_house_prices.geometry,
+                           locations=geo_house_prices.index, color='sellPrice',
+                           color_continuous_scale="viridis",
+                           center={"lat": -33.865143, "lon": 151.209900},
+                           range_color=(0, 2000000),
+                           labels={"sellPrice": "Selling Price", "suburb": "Suburb"},
+                           opacity=0.3
+                           )
 
 fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0},
                   mapbox_style="dark",
@@ -59,9 +74,8 @@ fig.update_geos(fitbounds="locations", visible=False)
 sold_per_month = pd.DataFrame(df.index.month_name().value_counts())
 
 # Rename Date column to Sold per Month
-sold_per_month.rename(columns={'Date':'Sold per Month'},inplace=True)
+sold_per_month.rename(columns={'Date': 'Sold per Month'}, inplace=True)
 sold_per_month.head()
-
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
 
@@ -74,12 +88,12 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(html.H4("Sydney House Prices"),
                 className='text-left')
-    ],className='m-3'),
+    ], className='m-3'),
 
     dbc.Row([
         dbc.Col(dcc.Graph(figure=fig))
     ], className='m-3')
-],fluid=True)
+], fluid=True)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
