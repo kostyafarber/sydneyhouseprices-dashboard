@@ -1,13 +1,10 @@
 import pandas as pd
 import geopandas as gpd
-import os
 import plotly.express as px
-import plotly.graph_objects as go
 import dash_bootstrap_components as dbc
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import os
 import requests
 
 
@@ -60,7 +57,8 @@ fig = px.choropleth_mapbox(geo_house_prices,
                            center={"lat": -33.865143, "lon": 151.209900},
                            range_color=(0, 2000000),
                            labels={"sellPrice": "Selling Price", "suburb": "Suburb"},
-                           opacity=0.3
+                           opacity=0.3,
+                           height=1000
                            )
 
 fig.update_layout(mapbox_style="dark",
@@ -69,26 +67,33 @@ fig.update_layout(mapbox_style="dark",
                   paper_bgcolor='rgba(0,0,0,0)',
                   plot_bgcolor='rgba(0,0,0,0)',
                   title='Median Sydney House Prices',
-                  margin={'r': 0, 'l': 0}
+                  margin={'r': 0, 'l': 0},
+                  autosize=True
                   )
-fig.update_coloraxes(colorbar_title=dict(side='right'))
+fig.update_coloraxes(colorbar_title=dict(side='right', text='Selling Price in Millions (AUD)'))
 fig.update_geos(fitbounds="locations", visible=False)
 
 # Histograms
 # ---------------------------------------------------------------------------------------------------------------------
-bed = px.histogram(data_frame=df, x='bed', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis, labels={'bed': 'Number of Bedrooms'}, height=300)
+bed = px.histogram(data_frame=df, x='bed', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis[-1],
+                   labels={'bed': 'Number of Bedrooms'}, height=300)
 bed.update_layout(dict(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', title='Bedrooms Histogram'))
 bed.update_xaxes(range=[0, 10])
 
-bath = px.histogram(data_frame=df, x='bath', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis, labels={'bath': 'Number of Bathrooms'}, height=300)
+bath = px.histogram(data_frame=df, x='bath', template='plotly_dark',
+                    color_discrete_sequence=px.colors.sequential.Viridis[-1], labels={'bath': 'Number of Bathrooms'},
+                    height=300)
 bath.update_layout(dict(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', title='Bathrooms Histogram'))
 bath.update_xaxes(range=[0, 10])
 
-car = px.histogram(data_frame=df, x='car', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis, labels={'car': 'Number of Car Spaces'}, height=300)
+car = px.histogram(data_frame=df, x='car', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis[-1],
+                   labels={'car': 'Number of Car Spaces'}, height=300)
 car.update_layout(dict(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', title='Car Spaces Histogram'))
 car.update_xaxes(range=[0, 10])
 
-sell = px.histogram(data_frame=df, x='sellPrice', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis, labels={'sellPrice': 'Selling Price in Millions (AUD)'}, height=300)
+sell = px.histogram(data_frame=df, x='sellPrice', template='plotly_dark',
+                    color_discrete_sequence=px.colors.sequential.Viridis[-1],
+                    labels={'sellPrice': 'Selling Price in Millions (AUD)'}, height=300)
 sell.update_layout(dict(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', title='Selling Prices Histogram'))
 sell.update_xaxes(range=[0, 10000000])
 
@@ -109,25 +114,45 @@ server = app.server
 app.layout = dbc.Container([
 
     dbc.Row([
-        dbc.Col(html.H4("Sydney House Prices"),
-                className='text-left')
-    ], className='m-3'),
+        dbc.Col(dcc.Graph(figure=fig)),
 
-    dbc.Row([
-        dbc.Col(dcc.Graph(figure=fig))
+        dbc.Col(children=[
+            dbc.Row([
+
+                dbc.Alert(
+                    (
+                        html.H1('Sydney House Prices'),
+
+                        html.Hr(className='my-2', style={'borderColor': 'white'}, ),
+
+                        html.P(
+                            "Welcome to my dashboard. Sydney Property Prices are always a focal attention in Australian News. "
+                            "Here you have various "
+                            "graphs that can help you better understand the Sydney property market."
+                        ),
+                    )
+                ),
+            ]),
+
+            dbc.Row([
+
+                dbc.Col(dcc.Graph(figure=bed)),
+
+                dbc.Col(dcc.Graph(figure=car))
+
+            ]),
+
+            dbc.Row([
+
+                dbc.Col(dcc.Graph(figure=bath)),
+
+                dbc.Col(dcc.Graph(figure=sell))
+
+            ])
+        ]
+        ),
     ], no_gutters=False),
 
-    dbc.Row([
-        dbc.Col(dcc.Graph(figure=bed), width=6),
-
-        dbc.Col(dcc.Graph(figure=bath), width=6)
-    ]),
-
-    dbc.Row([
-        dbc.Col(dcc.Graph(figure=bed), width=6),
-
-        dbc.Col(dcc.Graph(figure=bath), width=6)
-    ])
 ], fluid=True)
 
 if __name__ == '__main__':
