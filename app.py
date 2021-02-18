@@ -75,24 +75,24 @@ fig.update_geos(fitbounds="locations", visible=False)
 
 # Histograms
 # ---------------------------------------------------------------------------------------------------------------------
-bed = px.histogram(data_frame=df, x='bed', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis[-1],
+bed = px.histogram(data_frame=df, x='bed', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis,
                    labels={'bed': 'Number of Bedrooms'}, height=300)
 bed.update_layout(dict(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', title='Bedrooms Histogram'))
 bed.update_xaxes(range=[0, 10])
 
 bath = px.histogram(data_frame=df, x='bath', template='plotly_dark',
-                    color_discrete_sequence=px.colors.sequential.Viridis[-1], labels={'bath': 'Number of Bathrooms'},
+                    color_discrete_sequence=px.colors.sequential.Viridis, labels={'bath': 'Number of Bathrooms'},
                     height=300)
 bath.update_layout(dict(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', title='Bathrooms Histogram'))
 bath.update_xaxes(range=[0, 10])
 
-car = px.histogram(data_frame=df, x='car', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis[-1],
+car = px.histogram(data_frame=df, x='car', template='plotly_dark', color_discrete_sequence=px.colors.sequential.Viridis,
                    labels={'car': 'Number of Car Spaces'}, height=300)
 car.update_layout(dict(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', title='Car Spaces Histogram'))
 car.update_xaxes(range=[0, 10])
 
 sell = px.histogram(data_frame=df, x='sellPrice', template='plotly_dark',
-                    color_discrete_sequence=px.colors.sequential.Viridis[-1],
+                    color_discrete_sequence=px.colors.sequential.Viridis,
                     labels={'sellPrice': 'Selling Price in Millions (AUD)'}, height=300)
 sell.update_layout(dict(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', title='Selling Prices Histogram'))
 sell.update_xaxes(range=[0, 10000000])
