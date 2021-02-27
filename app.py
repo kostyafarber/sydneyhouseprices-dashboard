@@ -120,11 +120,15 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
             html.H5(["Sydney Housing Market Dashboard",
-                     html.Img(
-                         src='assets/puzzle.png',
-                         style={'float': 'right', 'height': '28px',
-                                'margin-right': '1%', 'margin-top': '-7px'}
-                     ),
+
+                     html.A(
+                         html.Img(
+                             src='assets/puzzle.png',
+                             style={'float': 'right', 'height': '28px',
+                                    'margin-right': '1%', 'margin-top': '-7px'}
+                         ),
+                     href='https://kostyafarber.github.io/'),
+
                      html.Img(
                          src='assets/dash-logo.png',
                          style={'float': 'right', 'height': '28px',
@@ -158,8 +162,22 @@ app.layout = dbc.Container([
         dbc.Col(dcc.Graph(id='car'), className='pretty_container six columns'),
 
         dbc.Col(dcc.Graph(id='bath'), className='pretty_container six columns')
-    ])
+    ]),
+
+    dbc.Row([
+            dbc.Col([
+                html.H5('Additional Information', className='container_title'),
+                dcc.Markdown('''
+                * Data was obtained from Kaggle [here](https://www.kaggle.com/mihirhalai/sydney-house-prices/activity). Data was scraped from realestate.com from 2010-2019.
+                * For more in-depth analysis see my [Jupyter Notebook](https://nbviewer.jupyter.org/github/kostyafarber/sydneyhouseprices/blob/master/notebooks/sydney_choropleth.ipynb) and the source code on [GitHub](https://github.com/kostyafarber/sydneyhouseprices).
+                * Check out the source code for this project on [Github]()
+                * For more about me, visit my blog by clicking on the jigsaw icon in the top right corner of this dashboard!
+                ''')
+                ])
+    ], className='pretty_container')
+
 ], fluid=True)
+
 
 
 @app.callback(
