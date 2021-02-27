@@ -1,12 +1,12 @@
-import pandas as pd
-import geopandas as gpd
-import plotly.express as px
-import dash_bootstrap_components as dbc
 import dash
+import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+import geopandas as gpd
+import pandas as pd
+import plotly.express as px
 import requests
+from dash.dependencies import Input, Output
 import json
 
 
@@ -24,6 +24,32 @@ def remoteGeoJSONToGDF(url, display=False):
         gdf.plot()
     return gdf
 
+
+# function to plot histograms
+def plot_hist(x, df, new_label, range_list, title):
+    """
+
+    :param x: x column of dataframe
+    :param df: dataframe
+    :param new_label: new label to replace existing one
+    :param range_list: a range of x limits in list format
+    :param title: plot title
+    :return: returns figure
+    """
+    figure = px.histogram(data_frame=df, x=x, template='plotly_dark', labels={x: new_label}, height=300)
+
+    figure.update_layout(
+        dict(title=title, plot_bgcolor='rgba(0, 0, 0, 0)', paper_bgcolor='rgba(0, 0, 0, 0)'),
+        yaxis=dict(showgrid=False),
+        xaxis=dict(showgrid=False))
+    figure.update_xaxes(range=range_list)
+    figure.update_traces(marker=dict(color=px.colors.sequential.Viridis[-4]))
+
+    return figure
+
+
+stat_labels = ['Selling Price is {:.2f}', 'Number of Bedrooms is {:.2f}', 'Number of Bathrooms is {:.2f}',
+               'Number of Carspaces is {:.2f}']
 
 # Preparing Data
 # ---------------------------------------------------------------------------------------------------------------------
@@ -59,8 +85,7 @@ fig = px.choropleth_mapbox(geo_house_prices,
                            range_color=(0, 2000000),
                            labels={"sellPrice": "Selling Price", "suburb": "Suburb"},
                            opacity=0.6,
-                           height=800,
-                           zoom=8.5
+                           zoom=10
                            )
 
 fig.update_layout(mapbox_style="dark",
@@ -72,36 +97,11 @@ fig.update_layout(mapbox_style="dark",
                   margin=dict(l=0, r=0, t=0, b=0)
                   )
 fig.update_coloraxes(colorbar_title=dict(side='right', text='Selling Price in Millions (AUD)'),
-                     colorbar=dict(x=0.90, xpad=0))
+                     colorbar=dict(x=0.92, xpad=0))
 fig.update_geos(fitbounds="locations", visible=False)
 
 # Histograms
 # ---------------------------------------------------------------------------------------------------------------------
-bed = px.histogram(data_frame=df, x='bed', template='plotly_dark',
-                   labels={'bed': 'Number of Bedrooms'}, height=300)
-bed.update_layout(dict(title='Bedrooms Histogram', plot_bgcolor='rgba(0, 0, 0, 0)', paper_bgcolor='rgba(0, 0, 0, 0)'))
-bed.update_xaxes(range=[0, 10])
-bed.update_traces(marker=dict(color=px.colors.sequential.Viridis[-4]))
-
-bath = px.histogram(data_frame=df, x='bath', template='plotly_dark',
-                    labels={'bath': 'Number of Bathrooms'},
-                    height=300)
-bath.update_layout(dict(title='Bathrooms Histogram', plot_bgcolor='rgba(0, 0, 0, 0)', paper_bgcolor='rgba(0, 0, 0, 0)'))
-bath.update_xaxes(range=[0, 10])
-bath.update_traces(marker=dict(color=px.colors.sequential.Viridis[-4]))
-
-car = px.histogram(data_frame=df, x='car', template='plotly_dark',
-                   labels={'car': 'Number of Car Spaces'}, height=300)
-car.update_layout(dict(title='Car Histogram', plot_bgcolor='rgba(0, 0, 0, 0)', paper_bgcolor='rgba(0, 0, 0, 0)'))
-car.update_xaxes(range=[0, 10])
-car.update_traces(marker=dict(color=px.colors.sequential.Viridis[-4]))
-
-sell = px.histogram(data_frame=df, x='sellPrice', template='plotly_dark',
-                    labels={'sellPrice': 'Selling Price in Millions (AUD)'}, height=300)
-sell.update_layout(
-    dict(title='Selling Prices Histogram', plot_bgcolor='rgba(0, 0, 0, 0)', paper_bgcolor='rgba(0, 0, 0, 0)'))
-sell.update_xaxes(range=[0, 10000000])
-sell.update_traces(marker=dict(color=px.colors.sequential.Viridis[-4]))
 # ---------------------------------------------------------------------------------------------------------------------
 # Count Number of sales made in each month and turn into a dataframe
 sold_per_month = pd.DataFrame(df.index.month_name().value_counts())
@@ -110,63 +110,174 @@ sold_per_month = pd.DataFrame(df.index.month_name().value_counts())
 sold_per_month.rename(columns={'Date': 'Sold per Month'}, inplace=True)
 sold_per_month.head()
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 server = app.server
 
 # Layouts
 # ---------------------------------------------------------------------------------------------------------------------
 app.layout = dbc.Container([
-
     dbc.Row([
-        dbc.Col(children=[
-            html.H4("The Sydney Housing Market from 2000-2019", className='font-weight-light'),
-            html.H5("Explore the median selling prices for Sydney properties and their attributes",
-                    className='font-weight-light')
-        ]),
-
-        dbc.Col(children=[
-            html.Img(src='assets/puzzle.png', width=30, height=30, className='m-1 img-fluid'),
-            html.Img(src='assets/plotly_dash.png', width=128, height=128, className='m-1 img-fluid'),
-        ], style={'textAlign': 'right'})
+        dbc.Col([
+            html.H5(["Sydney Housing Market Dashboard",
+                     html.Img(
+                         src='assets/puzzle.png',
+                         style={'float': 'right', 'height': '28px',
+                                'margin-right': '1%', 'margin-top': '-7px'}
+                     ),
+                     html.Img(
+                         src='assets/dash-logo.png',
+                         style={'float': 'right', 'height': '28px',
+                                'margin-right': '1%', 'margin-top': '-7px'}
+                     )
+                     ])
+        ])
     ]),
 
     dbc.Row([
-        dbc.Col(
-            dcc.Graph(figure=fig, id='map', className='bg-dark m-1')
-        ),
-
-        dbc.Col(children=[
-
-            dbc.Row([
-
-                dbc.Col(dcc.Graph(figure=bed), className='m-1 bg-dark'),
-
-                dbc.Col(dcc.Graph(figure=car), className='m-1 bg-dark')
-
-            ]),
-
-            dbc.Row([
-
-                dbc.Col(dcc.Graph(figure=bath), className='m-1 bg-dark'),
-
-                dbc.Col(dcc.Graph(figure=sell), className='m-1 bg-dark'),
-            ]),
-
-            dbc.Row([
-                dbc.Col(html.Pre(id='click-data'), className='m-1 bg-dark')
-            ])
-        ]),
+        dbc.Col(html.H5(id='price'), className='pretty_container text-center'),
+        dbc.Col(html.H5(id='bedrooms'), className='pretty_container text-center'),
+        dbc.Col(html.H5(id='bathrooms'), className='pretty_container text-center'),
+        dbc.Col(html.H5(id='carspace'), className='pretty_container text-center')
     ]),
 
+    dbc.Row([
+        dbc.Col([
+            html.H6(id='header', className='container_title'),
+            dcc.Graph(figure=fig, id='map'),
+        ], className='pretty_container twelve columns')
+    ]),
+
+    dbc.Row([
+        dbc.Col(dcc.Graph(id='bed'), className='pretty_container six columns'),
+
+        dbc.Col(dcc.Graph(id='sell'), className='pretty_container six columns'),
+    ]),
+
+    dbc.Row([
+        dbc.Col(dcc.Graph(id='car'), className='pretty_container'),
+
+        dbc.Col(dcc.Graph(id='bath'), className='pretty_container')
+    ])
 ], fluid=True)
 
 
 @app.callback(
-    Output('click-data', 'children'),
+    Output('header', 'children'),
+    Input('map', 'clickData')
+)
+def update_header(clickData):
+    if clickData is None:
+        return 'Median House Prices Sydney'
+    else:
+        location = clickData['points'][0]['location']
+
+        return 'Median House Prices Sydney (suburb selected {})'.format(location)
+
+
+@app.callback([
+    Output('price', 'children'),
+    Output('bedrooms', 'children'),
+    Output('bathrooms', 'children'),
+    Output('carspace', 'children')],
+    [Input('map', 'clickData')]
+)
+def update_info(clickData):
+    if clickData is None:
+        sydney_stats = median_statistics.median().values
+
+        output = []
+
+        for label, stat in zip(stat_labels, sydney_stats):
+            output.append(label.format(stat))
+
+        return output
+    else:
+
+        location = clickData['points'][0]['location']
+        stats_location = median_statistics[median_statistics.index == location].median().values
+
+        output = []
+
+        for label, stat in zip(stat_labels, stats_location):
+            output.append(label.format(stat))
+
+        return output
+
+
+@app.callback(
+    Output('bed', 'figure'),
     Input('map', 'clickData'))
-def display_hover_data(clickData):
-    return json.dumps(clickData, indent=2)
+def update_histogram(clickData):
+    if clickData is None:
+        bed = plot_hist('bed', df, 'Number of Beds', [0, 10], 'Number of Beds Histogram')
+
+        return bed
+
+    else:
+        location = clickData['points'][0]['location']
+        dff = df[df['suburb'] == location]
+        bed = plot_hist('bed', dff, 'Number of Beds', [0, 10], 'Number of Beds Histogram in {0}'.format(location))
+
+        return bed
+
+
+@app.callback(
+    Output('bath', 'figure'),
+    Input('map', 'clickData'))
+def update_histogram(clickData):
+    if clickData is None:
+        bath = plot_hist('bath', df, 'Number of Baths', [0, 10], 'Number of Baths Histogram')
+
+        return bath
+
+    else:
+
+        location = clickData['points'][0]['location']
+        dff = df[df['suburb'] == clickData['points'][0]['location']]
+
+        bath = plot_hist('bath', dff, 'Number of Baths', [0, 10],
+                         'Number of Bathrooms Histogram in {0}'.format(location))
+
+        return bath
+
+
+@app.callback(
+    Output('car', 'figure'),
+    Input('map', 'clickData'))
+def update_histogram(clickData):
+    if clickData is None:
+        car = plot_hist('car', df, 'Number of Cars', [0, 10], 'Number of Cars Histogram')
+
+        return car
+
+    else:
+
+        location = clickData['points'][0]['location']
+        dff = df[df['suburb'] == clickData['points'][0]['location']]
+
+        car = plot_hist('car', dff, 'Number of Cars', [0, 10], 'Number of Cars Histogram in {0}'.format(location))
+
+        return car
+
+
+@app.callback(
+    Output('sell', 'figure'),
+    Input('map', 'clickData'))
+def update_histogram(clickData):
+    if clickData is None:
+        sell = plot_hist('sellPrice', df, 'Selling Price in Millions (AUD)', [0, 2500000], 'Number of Baths Histogram')
+
+        return sell
+
+    else:
+        location = clickData['points'][0]['location']
+        dff = df[df['suburb'] == clickData['points'][0]['location']]
+
+        sell = plot_hist('sellPrice', dff, 'Selling Price in Millions (AUD)', [0, 2500000],
+                         'Selling Property Price Histogram '
+                         'in {0}'.format(location))
+        return sell
 
 
 if __name__ == '__main__':
