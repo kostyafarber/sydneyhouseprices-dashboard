@@ -155,9 +155,9 @@ app.layout = dbc.Container([
     ]),
 
     dbc.Row([
-        dbc.Col(dcc.Graph(id='car'), className='pretty_container'),
+        dbc.Col(dcc.Graph(id='car'), className='pretty_container six columns'),
 
-        dbc.Col(dcc.Graph(id='bath'), className='pretty_container')
+        dbc.Col(dcc.Graph(id='bath'), className='pretty_container six columns')
     ])
 ], fluid=True)
 
