@@ -7,8 +7,17 @@ import pandas as pd
 import plotly.express as px
 import requests
 from dash.dependencies import Input, Output
-import json
+import os
 
+# check for tokens
+token = os.getenv('MAPBOX_TOKEN')
+mapbox_style = "dark"
+if not token:
+    try:
+        token = open('.mapbox_token').read()
+    except Exception as e:
+        print('mapbox token not found, using open-street-maps')
+        mapbox_style = "carto-darkmatter"
 
 # Function to import geojson and change to geopandas dataframe
 def remoteGeoJSONToGDF(url, display=False):
@@ -75,8 +84,6 @@ geo_house_prices.set_index("suburb", inplace=True)
 
 # Choropleth Map
 # ---------------------------------------------------------------------------------------------------------------------
-token = open('.mapbox_token').read()
-
 fig = px.choropleth_mapbox(geo_house_prices,
                            geojson=geo_house_prices.geometry,
                            locations=geo_house_prices.index, color='sellPrice',
@@ -170,7 +177,8 @@ app.layout = dbc.Container([
                 dcc.Markdown('''
                 * Data was obtained from Kaggle [here](https://www.kaggle.com/mihirhalai/sydney-house-prices/activity). Data was scraped from realestate.com from 2010-2019.
                 * For more in-depth analysis see my [Jupyter Notebook](https://nbviewer.jupyter.org/github/kostyafarber/sydneyhouseprices/blob/master/notebooks/sydney_choropleth.ipynb) and the source code on [GitHub](https://github.com/kostyafarber/sydneyhouseprices).
-                * Check out the source code for this project on [Github]()
+                * Thank you rapidsai for the great CSS and inspiration for the layout of this dashboard. Check out their GitHub Repo [here](https://github.com/rapidsai/plotly-dash-rapids-census-demo)
+                * Check out the source code for this project on [Github](https://github.com/kostyafarber/sydneyhouseprices-dashboard)
                 * For more about me, visit my blog by clicking on the jigsaw icon in the top right corner of this dashboard!
                 ''')
                 ])
