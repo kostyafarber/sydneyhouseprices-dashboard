@@ -14,7 +14,7 @@ token = os.getenv('MAPBOX_TOKEN')
 mapbox_style = "dark"
 if not token:
     try:
-        token = open('.mapbox_token').read()
+        token = open('../.mapbox_token').read()
     except Exception as e:
         print('mapbox token not found, using open-street-maps')
         mapbox_style = "carto-darkmatter"
@@ -63,7 +63,7 @@ stat_labels = ['Selling Price is {:.2f}', 'Number of Bedrooms is {:.2f}', 'Numbe
 # Preparing Data
 # ---------------------------------------------------------------------------------------------------------------------
 # import dataframe
-df = pd.read_csv('data/prices_data.csv', parse_dates=True, index_col='Date')
+df = pd.read_csv('../data/prices_data.csv', parse_dates=True, index_col='Date')
 
 sydney = remoteGeoJSONToGDF('https://raw.githubusercontent.com/Perishleaf/data-visualisation-scripts/master'
                             '/dash_project_medium/Sydney_suburb.geojson')
