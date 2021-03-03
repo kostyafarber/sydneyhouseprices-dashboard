@@ -64,8 +64,7 @@ stat_labels = ['Selling Price is {:.2f}', 'Number of Bedrooms is {:.2f}', 'Numbe
 # Preparing Data
 # ---------------------------------------------------------------------------------------------------------------------
 # import dataframe
-df = pd.read_csv('../'
-                 'data/prices_data.csv', parse_dates=True, index_col='Date')
+df = pd.read_csv("../data/prices_data.csv", parse_dates=True, index_col='Date')
 
 sydney = remoteGeoJSONToGDF('https://raw.githubusercontent.com/Perishleaf/data-visualisation-scripts/master'
                             '/dash_project_medium/Sydney_suburb.geojson')
