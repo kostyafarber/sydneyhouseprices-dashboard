@@ -19,6 +19,7 @@ if not token:
         print('mapbox token not found, using open-street-maps')
         mapbox_style = "carto-darkmatter"
 
+
 # Function to import geojson and change to geopandas dataframe
 def remoteGeoJSONToGDF(url, display=False):
     """Import remote GeoJSON to a GeoDataFrame
@@ -63,7 +64,8 @@ stat_labels = ['Selling Price is {:.2f}', 'Number of Bedrooms is {:.2f}', 'Numbe
 # Preparing Data
 # ---------------------------------------------------------------------------------------------------------------------
 # import dataframe
-df = pd.read_csv('../data/prices_data.csv', parse_dates=True, index_col='Date')
+df = pd.read_csv('../'
+                 'data/prices_data.csv', parse_dates=True, index_col='Date')
 
 sydney = remoteGeoJSONToGDF('https://raw.githubusercontent.com/Perishleaf/data-visualisation-scripts/master'
                             '/dash_project_medium/Sydney_suburb.geojson')
@@ -134,7 +136,7 @@ app.layout = dbc.Container([
                              style={'float': 'right', 'height': '28px',
                                     'margin-right': '1%', 'margin-top': '-7px'}
                          ),
-                     href='https://kostyafarber.github.io/'),
+                         href='https://kostyafarber.github.io/'),
 
                      html.Img(
                          src='assets/dash-logo.png',
@@ -172,20 +174,19 @@ app.layout = dbc.Container([
     ]),
 
     dbc.Row([
-            dbc.Col([
-                html.H5('Additional Information', className='container_title'),
-                dcc.Markdown('''
+        dbc.Col([
+            html.H5('Additional Information', className='container_title'),
+            dcc.Markdown('''
                 * Data was obtained from Kaggle [here](https://www.kaggle.com/mihirhalai/sydney-house-prices/activity). Data was scraped from realestate.com from 2010-2019.
                 * For more in-depth analysis see my [Jupyter Notebook](https://nbviewer.jupyter.org/github/kostyafarber/sydneyhouseprices/blob/master/notebooks/sydney_choropleth.ipynb) and the source code on [GitHub](https://github.com/kostyafarber/sydneyhouseprices).
                 * Thank you rapidsai for the great CSS and inspiration for the layout of this dashboard. Check out their GitHub Repo [here](https://github.com/rapidsai/plotly-dash-rapids-census-demo)
                 * Check out the source code for this project on [Github](https://github.com/kostyafarber/sydneyhouseprices-dashboard)
                 * For more about me, visit my blog by clicking on the jigsaw icon in the top right corner of this dashboard!
                 ''')
-                ])
+        ])
     ], className='pretty_container')
 
 ], fluid=True)
-
 
 
 @app.callback(
