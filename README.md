@@ -41,4 +41,6 @@ Then run `app.py` and it will serve the app locally:
 $ python app.py
 ```
 ## Data
-The data was obtained on [Kaggle](https://www.kaggle.com/mihirhalai/sydney-house-prices/activity). An in-depth Jupyter notebook is available that explores the data and contains the code that produced the plots in the dashboard in the `jupyter_notebook` directory. 
+The data was obtained on [Kaggle](https://www.kaggle.com/mihirhalai/sydney-house-prices/activity). An in-depth Jupyter notebook is available that explores the data and contains the code that produced the plots in the dashboard in the `jupyter_notebook` directory. To view an executable version of the notebook click on the binder badge in the title. 
+
+Otherwise you may use the `environment.yml` in `binder` to create your own conda environment and run it locally with the required dependencies.
