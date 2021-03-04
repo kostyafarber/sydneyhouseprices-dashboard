@@ -2,11 +2,15 @@
 
 ## Sydney House Prices Dashboard | Exploratory Analysis Notebook
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kostyafarber/sydneyhouseprices-dashboard/HEAD?filepath=%2Fjupyter_notebook%2Fsydney_choropleth.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kostyafarber/sydneyhouseprices-dashboard/HEAD?filepath=%2Fjupyter_notebook%2Fsydney_choropleth.ipynb) [![Heroku](https://heroku-badge.herokuapp.com/?app=heroku-badge)](https://sydneyhouseprices-dashboard.herokuapp.com/)
+
+
 
 ![](/plotly_dashboard/assets/dash.png)
 
 ## Installation
+The deployed dashboard is available to view by clicking on the badge icon above.
+
 To run the dashboard locally clone the repository and `cd` into it:
 
 ```shell
@@ -36,6 +40,5 @@ Then run `app.py` and it will serve the app locally:
 ```shell
 $ python app.py
 ```
-
 ## Data
 The data was obtained on [Kaggle](https://www.kaggle.com/mihirhalai/sydney-house-prices/activity). An in-depth Jupyter notebook is available that explores the data and contains the code that produced the plots in the dashboard in the `jupyter_notebook` directory. 
