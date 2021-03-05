@@ -9,6 +9,9 @@
 
 ![](/plotly_dashboard/assets/dash.png)
 
+## Description
+Visit my [blog](https://kostyafarber.github.io/) for more information about this project.
+
 ## Installation
 The deployed dashboard is available to view by clicking on the badge icon above.
 
