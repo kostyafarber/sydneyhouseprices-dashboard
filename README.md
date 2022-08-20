@@ -3,7 +3,7 @@
 ## Sydney House Prices Dashboard | Exploratory Analysis Notebook
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kostyafarber/sydneyhouseprices-dashboard/HEAD?filepath=%2Fjupyter_notebook%2Fsydney_choropleth.ipynb)
-[![Heroku](https://heroku-badge.herokuapp.com/?app=heroku-badge)](https://sydneyhouseprices-dashboard.herokuapp.com/)
+[![Heroku](https://pyheroku-badge.herokuapp.com/?app=sydneyhouseprices-dashboard&style=flat)](https://sydneyhouseprices-dashboard.herokuapp.com/)
 
 
 
